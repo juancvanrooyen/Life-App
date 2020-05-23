@@ -1,58 +1,70 @@
-import React/*, { Component }*/ from 'react';
+import React, { Component } from 'react';
 //import api from '../api';
+import { connect } from 'react-redux';
+import { getTasks/*, addTask*/, deleteTask } from '../actions/taskActions';
+import PropTypes from 'prop-types';
 
-function Task(props) {
 
-  function leftButtonTest() {
+class Task extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      tasks: [],
+      isLoading: false
+    }
+  }
+
+// function Task(props) {
+//
+  leftButtonTest() {
     // CODE GOES HERE
     alert("LEFT");
   }
 
-  function rightButtonTest() {
+  rightButtonTest() {
     // CODE GOES HERE
     alert("RIGHT");
   }
 
-  function editButtonTest() {
+  editButtonTest() {
     // CODE GOES HERE
     alert("EDIT");
   }
 
-  function taskDeleteButton() {
+  onDeleteClick() {
     alert("DELETE");
-    // event.preventDefault();
-    // console.log();
-
-    // api.deleteTaskById(this.props.id);
-    // window.location.reload();
+    //this.deleteTask();
   }
 
-  window.addEventListener("load", function(event) {
-    const descs = document.getElementsByClassName("card-text");
-    for (var i = 0; i < descs.length; i++) {
-      if (descs[i].innerHTML === "") {
-        descs[i].parentElement.style.display = "none";
-        // descs[i].innerHTML = "No Description...";
-      }
-    }
-  });
+  // Delete Button Code HERE
+  //<span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this)}></span>
+  //<span className="fas fa-trash-alt task-icon" title="Delete Task"></span>
 
-  return (
-    <div className="card text-white bg-dark">
-      <div className="card-header row">
-        <p className="col-8 task-header-text">{props.title}</p>
-        <div className="col-4 task-header-icons">
-        <span className="fas fa-arrow-left task-icon" onClick={leftButtonTest} title="Move Task"></span>
-        <span className="fas fa-arrow-right task-icon" onClick={rightButtonTest}  title="Move Task"></span>
-        <span className="fas fa-pencil-alt task-icon" onClick={editButtonTest} title="Edit Task"></span>
-        <span className="fas fa-trash-alt task-icon" onClick={taskDeleteButton} title="Delete Task"></span>
+
+
+  // NEW VERSION OF COMPONENTDIDMOUNT
+  // componentDidMount() {
+  //   this.props.getTasks();
+  // }
+render(){
+  // const {tasks/*, isLoading*/} = this.props.task;
+    return (
+      <div className="card text-white bg-dark">
+        <div className="card-header row">
+          <p className="col-8 task-header-text">{this.props.title}</p>
+          <div className="col-4 task-header-icons">
+          <span className="fas fa-arrow-left task-icon" onClick={this.leftButtonTest} title="Move Task"></span>
+          <span className="fas fa-arrow-right task-icon" onClick={this.rightButtonTest}  title="Move Task"></span>
+          <span className="fas fa-pencil-alt task-icon" onClick={this.editButtonTest} title="Edit Task"></span>
+          <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick}></span>
+          </div>
+        </div>
+        <div className="card-body">
+          <small className="card-text">{this.props.desc}</small>
         </div>
       </div>
-      <div className="card-body">
-        <small className="card-text">{props.desc}</small>
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default Task;

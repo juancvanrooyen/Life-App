@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// Create Parent List Schema
+// Create Task Schema
 const TaskSchema = new Schema({
   owner: {
     type: String,

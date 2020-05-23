@@ -8,7 +8,7 @@ function NavBar() {
         <a href="/">
           <img src={logo} width="50" height="50" alt="" />
         </a>
-        <a className="navbar-brand" href="/" alt="">The Best Fkn App Ever!</a>
+        <a className="navbar-brand" href="/" alt="">Life App</a>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item active">

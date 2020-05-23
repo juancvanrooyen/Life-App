@@ -1,38 +1,7 @@
-import React, { /*useState,*/ Component } from 'react';
-//import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Task from './Task';
-import api from '../api';
-
-/*class UpdateTask extends Component {
-  updateUser = event => {
-    event.preventDefault();
-
-    // THIS IS WHERE WE SEND THE VALUES TO THE EDIT FIELDS
-    // window.location.href = `/movies/update/${this.props.id}`
-    alert("Edit Successful!");
-  }
-  // AND HERE TOO!
-  // render() {
-  //   return <Update onClick={this.updateUser}>Update</Update>
-  // }
-}
-
-class DeleteTask extends Component {
-  deleteUser = event => {
-    event.preventDefault();
-
-    if (window.confirm(`Delete Task: ${this.props.id}`)) {
-      api.deleteTaskById(this.props.id);
-      window.location.reload();
-    }
-  }
-  // render() {
-  //   return <Delete onClick={this.deleteUser}>Delete</Delete>
-  // }
-}*/
-
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getTasks, deleteTask, taskUp, taskDown } from '../actions/taskActions';
+import PropTypes from 'prop-types';
 
 
 class Tasks extends Component {
@@ -44,19 +13,41 @@ class Tasks extends Component {
     }
   }
 
-  componentDidMount = async () => {
-    this.setState({ isLoading: true })
-    await api.getAllTasks().then(task => {
-      this.setState({
-        tasks: task.data.data,
-        isLoading: false
-      })
-    })
+  // New version of componentDidMount
+  componentDidMount() {
+    this.props.getTasks();
   }
 
-  render() {
-    const {tasks/*, isLoading*/} = this.state;
+  // Fires When Task's Left Arrow is Clicked
+  // Points to taskActions.js - taskDown Function
+  onTaskDown = (id, status) => {
+    this.props.taskDown(id, status);
+  }
 
+  // Fires When Task's Right Arrow is Clicked
+  // Points to taskActions.js - taskUp Function
+  onTaskUp = (id, status) => {
+    this.props.taskUp(id, status);
+  }
+
+  editButtonTest() {
+    // CODE GOES HERE
+    console.log("Functionality Coming Soon");
+  }
+
+  // Fires When Task's Delete Button is Clicked
+  // Points to taskActions.js - deleteTask Function
+  onDeleteClick = (id) => {
+    //alert("DELETE");
+    this.props.deleteTask(id);
+  }
+
+  // Below is where the Individual Task Components are Mapped into their Respective Columns
+  // This is done by Filtering them according to their Status values
+  // Status of 0 = Pending | Status of 1 = Active | Status of 2 = Complete
+  // Each Task Rendered has its own set of Buttons with Event Listeners, connected to Functions above the Render
+  render() {
+    const {tasks/*, isLoading*/} = this.props.task;
     return (
       <div className="container tasks-container">
         <div className="row">
@@ -66,16 +57,22 @@ class Tasks extends Component {
               .filter((taskItem) => {
                 return taskItem.status === 0;
               })
-              .map((taskItem, index) => {
+              .map(({index, _id, title, desc, status}) => {
                 return (
-                  <Task
-                    key={index}
-                    id={index}
-                    status="0"
-                    title={taskItem.title}
-                    desc={taskItem.desc}
-                    //onDelete={deleteTask}
-                  />
+                  <div key={_id} className="card text-white bg-dark">
+                    <div className="card-header row">
+                      <p className="col-8 task-header-text">{title}</p>
+                      <div className="col-4 task-header-icons">
+                      <span className="fas fa-arrow-left task-icon" title="Move Task" onClick={this.onTaskDown.bind(this, _id, status)}></span>
+                      <span className="fas fa-arrow-right task-icon" title="Move Task" onClick={this.onTaskUp.bind(this, _id, status)}></span>
+                      <span className="fas fa-pencil-alt task-icon" onClick={this.editButtonTest} title="Edit Task"></span>
+                      <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
+                      </div>
+                    </div>
+                    <div className="card-body hidden">
+                      <small className="card-text">{desc}</small>
+                    </div>
+                  </div>
                 )
               })}
           </div>
@@ -85,16 +82,22 @@ class Tasks extends Component {
               .filter((taskItem) => {
                 return taskItem.status === 1;
               })
-              .map((taskItem, index) => {
+              .map(({index, _id, title, desc, status}) => {
                 return (
-                  <Task
-                    key={index}
-                    id={index}
-                    status="0"
-                    title={taskItem.title}
-                    desc={taskItem.desc}
-                    //onDelete={deleteTask}
-                  />
+                  <div key={_id} className="card text-white bg-dark">
+                    <div className="card-header row">
+                      <p className="col-8 task-header-text">{title}</p>
+                      <div className="col-4 task-header-icons">
+                      <span className="fas fa-arrow-left task-icon" title="Move Task" onClick={this.onTaskDown.bind(this, _id, status)}></span>
+                      <span className="fas fa-arrow-right task-icon" title="Move Task" onClick={this.onTaskUp.bind(this, _id, status)}></span>
+                      <span className="fas fa-pencil-alt task-icon" onClick={this.editButtonTest} title="Edit Task"></span>
+                      <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
+                      </div>
+                    </div>
+                    <div className="card-body hidden">
+                      <small className="card-text">{desc}</small>
+                    </div>
+                  </div>
                 )
               })}
           </div>
@@ -104,16 +107,22 @@ class Tasks extends Component {
               .filter((taskItem) => {
                 return taskItem.status === 2;
               })
-              .map((taskItem, index) => {
+              .map(({index, _id, title, desc, status}) => {
                 return (
-                  <Task
-                    key={index}
-                    id={index}
-                    status="0"
-                    title={taskItem.title}
-                    desc={taskItem.desc}
-                    //onDelete={deleteTask}
-                  />
+                  <div key={_id} className="card text-white bg-dark">
+                    <div className="card-header row">
+                      <p className="col-8 task-header-text">{title}</p>
+                      <div className="col-4 task-header-icons">
+                      <span className="fas fa-arrow-left task-icon" title="Move Task" onClick={this.onTaskDown.bind(this, _id, status)}></span>
+                      <span className="fas fa-arrow-right task-icon" title="Move Task" onClick={this.onTaskUp.bind(this, _id, status)}></span>
+                      <span className="fas fa-pencil-alt task-icon" onClick={this.editButtonTest} title="Edit Task"></span>
+                      <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
+                      </div>
+                    </div>
+                    <div className="card-body" style={{display: "none"}}>
+                      <small className="card-text">{desc}</small>
+                    </div>
+                  </div>
                 )
               })}
           </div>
@@ -123,4 +132,24 @@ class Tasks extends Component {
   }
 }
 
-export default Tasks;
+Tasks.propTypes = {
+  getTasks: PropTypes.func.isRequired,
+  taskUp: PropTypes.func.isRequired,
+  task: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  task: state.task
+})
+
+// Hide section of Task that contains the Description, only when the Desc is empty.
+window.addEventListener("load", function(event) {
+  const descs = document.getElementsByClassName("card-text");
+  for (var i = 0; i < descs.length; i++) {
+    if (descs[i].innerHTML !== "") {
+      descs[i].parentElement.style.display = "block";
+    }
+  }
+});
+
+export default connect(mapStateToProps, { getTasks, deleteTask, taskUp, taskDown })(Tasks);
