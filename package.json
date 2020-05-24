@@ -1,6 +1,11 @@
 {
   "name": "life-app",
   "version": "0.1.0",
+  "author": "Juan van Rooyen",
+  "main": "/server/index.js",
+  "engines": {
+    "node": "12.16.1"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -21,7 +26,6 @@
     "redux-thunk": "^2.3.0",
     "uuid": "^8.0.0"
   },
-  "proxy": "http://localhost:5000/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

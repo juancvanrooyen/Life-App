@@ -69,7 +69,7 @@ class Tasks extends Component {
                       <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
                       </div>
                     </div>
-                    <div className="card-body hidden">
+                    <div className="card-body" style={{display: "none"}}>
                       <small className="card-text">{desc}</small>
                     </div>
                   </div>
@@ -94,7 +94,7 @@ class Tasks extends Component {
                       <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
                       </div>
                     </div>
-                    <div className="card-body hidden">
+                    <div className="card-body" style={{display: "none"}}>
                       <small className="card-text">{desc}</small>
                     </div>
                   </div>
