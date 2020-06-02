@@ -1,6 +1,7 @@
 import React, { /*useState,*/ Component } from 'react';
 import { connect } from 'react-redux';
 import { addTask } from '../actions/taskActions';
+//import PropTypes from 'prop-types'
 
 
 class CreateTask extends Component {
@@ -26,7 +27,7 @@ class CreateTask extends Component {
 
   render() {
     return (
-    <form className="container createTaskContainer">
+    <form className="container createTaskContainer" style={{marginTop: "1rem"}}>
       <div className="form-row">
         <div className="col-md-6 col-sm-12">
           <input
@@ -46,7 +47,7 @@ class CreateTask extends Component {
           />
         </div>
         <div className="col-md-3 col-sm-12">
-          <select className="form-control" id="taskStatusSelect" name="status" onClick={this.onChange} onChange={this.onChange} >
+          <select className="form-control taskStatusSelect" id="taskStatusSelect" name="status" onClick={this.onChange} onChange={this.onChange} >
             <option value={0}>Pending</option>
             <option value={1}>Active</option>
             <option value={2}>Complete</option>
@@ -62,7 +63,8 @@ class CreateTask extends Component {
 }
 
 const mapStateToProps = state => ({
-  task: state.task
+  task: state.task,
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(mapStateToProps, { addTask })(CreateTask);

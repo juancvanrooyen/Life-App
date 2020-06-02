@@ -35,6 +35,11 @@ class Tasks extends Component {
     console.log("Functionality Coming Soon");
   }
 
+  onTaskTextEdit(title) {
+    console.log("this = " + this);
+    console.log("title = " + title);
+  }
+
   // Fires When Task's Delete Button is Clicked
   // Points to taskActions.js - deleteTask Function
   onDeleteClick = (id) => {
@@ -61,7 +66,7 @@ class Tasks extends Component {
                 return (
                   <div key={_id} className="card text-white bg-dark">
                     <div className="card-header row">
-                      <p className="col-8 task-header-text">{title}</p>
+                      <p className="col-8 task-header-text" onBlur={this.onTaskTextEdit.bind(this, title)}>{title}</p>
                       <div className="col-4 task-header-icons">
                       <span className="fas fa-arrow-left task-icon" title="Move Task" onClick={this.onTaskDown.bind(this, _id, status)}></span>
                       <span className="fas fa-arrow-right task-icon" title="Move Task" onClick={this.onTaskUp.bind(this, _id, status)}></span>
@@ -143,7 +148,7 @@ const mapStateToProps = (state) => ({
 })
 
 // Hide section of Task that contains the Description, only when the Desc is empty.
-window.addEventListener("load", function(event) {
+window.addEventListener("load", function() {
   const descs = document.getElementsByClassName("card-text");
   for (var i = 0; i < descs.length; i++) {
     if (descs[i].innerHTML !== "") {

@@ -1,3 +1,8 @@
+/* HTML Styles */
+
+
+
+
 /* Task Section Heading Text (Pending, Active, Complete) */
 .task-section {
   text-align: center;
@@ -9,11 +14,15 @@
   margin-bottom: 0.75rem;
 }
 
+.createTaskContainer .taskTitleInput div input:focus {
+  border: 0 none transparent;
+}
+
 .tasks-container .task-cols {
   margin-top: 2rem;
 }
 
-#taskStatusSelect {
+.taskStatusSelect {
   cursor: pointer;
 }
 
@@ -74,4 +83,14 @@
 
 .tasks-pending .fa-arrow-left, .tasks-complete .fa-arrow-right {
   display: none;
+}
+
+.card {
+  box-shadow: none;
+  transition: box-shadow 200ms;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 5px 8px 0 rgba(0, 0, 0, 0.4);
+  transition: box-shadow 200ms;
 }

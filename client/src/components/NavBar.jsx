@@ -1,5 +1,6 @@
 import React/*, { Component }*/ from 'react';
 import logo from '../logo.svg';
+import Logout from './auth/Logout';
 
 function NavBar() {
   return (
@@ -20,6 +21,7 @@ function NavBar() {
             <li className="nav-item">
               <a className="nav-link" href="/">Finances</a>
             </li>
+            <Logout />
           </ul>
         </div>
       </nav>

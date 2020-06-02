@@ -1,27 +1,33 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser'); - Deprecated. Testing for now. Edited "app.use" below.
 const app = express();
 const port = process.env.PORT || 5000; // - process.env.PORT is needed for Heroku deployment
-const tasks = require('./routes/api/tasks');
 const path = require('path');
+const config = require('config');
 
 mongoose.set('useFindAndModify', false);
 
 // bodyParser Middleware
-app.use(bodyParser.json());
+app.use(express.json());
 
 // DB Config
-const db = require('./config/keys').mongoURI;
+const db = config.get('mongoURI');
 
 // Connect to MongoDB
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
   .then(() => console.log("Mongo Connected"))
   .catch(err => console.log(err));
 
 // Use Routes
-app.use('/api/tasks', tasks);
+app.use('/api/tasks', require('./routes/api/tasks'));
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
 
 //Serve Statis Assets if in production
 if (process.env.NODE_ENV === 'production'){

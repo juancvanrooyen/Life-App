@@ -1,17 +1,23 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../../middleware/auth');
 
 // Task Model
 const Task = require('../../models/Task');
 
+// @route   GET api/tasks
+// @desc    Get task data
+// @access  Private
 router.get('/', (req, res) => {
   Task.find()
     .sort({ date: 1})
     .then(tasks => res.json(tasks))
 });
 
-// Add Task - ADD_TASK
-router.post('/', (req, res) => {
+// @route   POST api/tasks
+// @desc    Send task data
+// @access  Private
+router.post('/', auth, (req, res) => {
   const newTask = new Task({
     title: req.body.title,
     desc: req.body.desc,
@@ -20,16 +26,20 @@ router.post('/', (req, res) => {
   newTask.save().then(task => res.json(task));
 });
 
-// Delete Task - DELETE_TASK
-router.delete('/:id', (req, res) => {
+// @route   DELETE api/tasks
+// @desc    Delete task data
+// @access  Private
+router.delete('/:id', auth, (req, res) => {
   Task.findById(req.params.id)
     .then(task => task.remove()
     .then(() => res.json({ success: true })))
     .catch(err => res.status(404).json({ success: false }));
 });
 
-// Update Task - TASK_UP
-router.post('/up/:id', (req, res, next) => {
+// @route   POST api/tasks
+// @desc    Update task data - Increment task Status
+// @access  Private
+router.post('/up/:id', auth, (req, res, next) => {
   Task.findById(req.params.id, function(err, task){
     if (!task) {
       res.status(404).send("Not found");
@@ -45,8 +55,10 @@ router.post('/up/:id', (req, res, next) => {
   }
 )})
 
-// Update Task - TASK_DOWN
-router.post('/down/:id', (req, res) => {
+// @route   POST api/tasks
+// @desc    Update task data - Decrement task Status
+// @access  Private
+router.post('/down/:id', auth, (req, res) => {
   Task.findById(req.params.id, function(err, task){
     if (!task) {
       res.status(404).send("Not found");

@@ -7,6 +7,8 @@ import {
   TASK_UP,
   TASK_DOWN
 } from './types';
+import { tokenConfig } from './authActions';
+import { returnErrors } from './errorActions';
 
 // GET Task data from DB
 export const getTasks = () => dispatch => {
@@ -15,25 +17,31 @@ export const getTasks = () => dispatch => {
     .then(res => dispatch({
         type: GET_TASKS,
         payload: res.data
-      }));
+      }))
+      .catch(err => dispatch(returnErrors(err.response.data, err.response.status))
+      );
 };
 
 // DELETE Task from DB
-export const deleteTask = id => dispatch => {
-  axios.delete(`/api/tasks/${id}`)
+export const deleteTask = id => (dispatch, getState) => {
+  axios.delete(`/api/tasks/${id}`, tokenConfig(getState))
     .then(res => dispatch({
       type: DELETE_TASK,
       payload: id
-    }));
+    }))
+    .catch(err => dispatch(returnErrors(err.response.data, err.response.status))
+    );
 };
 
 // ADD Task to DB
-export const addTask = task => dispatch => {
-  axios.post('/api/tasks', task)
+export const addTask = task => (dispatch, getState) => {
+  axios.post('/api/tasks', task, tokenConfig(getState))
     .then(res => dispatch({
       type: ADD_TASK,
       payload: res.data
-    }));
+    }))
+    .catch(err => dispatch(returnErrors(err.response.data, err.response.status))
+    );
 };
 
 // Indicates whether Task Data is Loading
@@ -46,33 +54,27 @@ export const setTasksLoading = () => {
 // Pulls Individual Task data
 // Sends it to the taskReducer as well as api/tasks.js Router
 // End Result is that Individual Task Status is Incremented and Saved to DB
-export const taskUp = (id, status) => dispatch => {
-  axios.post(`/api/tasks/up/${id}`)
+export const taskUp = (id, status) => (dispatch, getState) => {
+  axios.post(`/api/tasks/up/${id}`, tokenConfig(getState))
     .then(
       dispatch({
         type: TASK_UP,
         payload: status
       }))
-    .catch(error => {
-      if (error.response) {
-        console.log(error.response.data);
-      }
-    })
+      .catch(err => dispatch(returnErrors(err.response.data, err.response.status))
+      );
 };
 
 // Pulls Individual Task data
 // Sends it to the taskReducer as well as api/tasks.js Router
 // End Result is that Individual Task Status is Decremented and Saved to DB
-export const taskDown = (id, status) => dispatch => {
-  axios.post(`/api/tasks/down/${id}`)
+export const taskDown = (id, status) => (dispatch, getState) => {
+  axios.post(`/api/tasks/down/${id}`, tokenConfig(getState))
     .then(
       dispatch({
         type: TASK_DOWN,
         payload: status
       }))
-    .catch(error => {
-      if (error.response) {
-        console.log(error.response.data);
-      }
-    })
+      .catch(err => dispatch(returnErrors(err.response.data, err.response.status))
+      );
 };
