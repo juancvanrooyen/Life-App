@@ -52,6 +52,7 @@ class LoginSection extends Component {
   render() {
     return (
     <form className="container createTaskContainer" style={{borderBottom: "1px solid #ced4da", marginTop: "1rem"}}>
+    <h4 style={{color: "#ced4da"}}>Login</h4>
       <div className="form-row">
         <div className="col-md-6 col-sm-12">
           <input

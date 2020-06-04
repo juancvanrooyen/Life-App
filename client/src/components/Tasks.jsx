@@ -5,12 +5,16 @@ import PropTypes from 'prop-types';
 
 
 class Tasks extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      tasks: [],
-      isLoading: false
-    }
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     tasks: [],
+  //     isLoading: false
+  //   }
+  // }
+  state = {
+    tasks: [],
+    isLoading: false
   }
 
   // New version of componentDidMount
@@ -140,11 +144,13 @@ class Tasks extends Component {
 Tasks.propTypes = {
   getTasks: PropTypes.func.isRequired,
   taskUp: PropTypes.func.isRequired,
+  taskDown: PropTypes.func.isRequired,
   task: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  task: state.task
+  task: state.task,
+  isAuthenticated: state.auth.isAuthenticated
 })
 
 // Hide section of Task that contains the Description, only when the Desc is empty.

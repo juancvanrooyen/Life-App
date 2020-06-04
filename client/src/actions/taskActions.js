@@ -56,8 +56,7 @@ export const setTasksLoading = () => {
 // End Result is that Individual Task Status is Incremented and Saved to DB
 export const taskUp = (id, status) => (dispatch, getState) => {
   axios.post(`/api/tasks/up/${id}`, tokenConfig(getState))
-    .then(
-      dispatch({
+    .then(res => dispatch({
         type: TASK_UP,
         payload: status
       }))
@@ -70,8 +69,7 @@ export const taskUp = (id, status) => (dispatch, getState) => {
 // End Result is that Individual Task Status is Decremented and Saved to DB
 export const taskDown = (id, status) => (dispatch, getState) => {
   axios.post(`/api/tasks/down/${id}`, tokenConfig(getState))
-    .then(
-      dispatch({
+    .then(res => dispatch({
         type: TASK_DOWN,
         payload: status
       }))

@@ -58,6 +58,7 @@ class RegisterSection extends Component {
   render() {
     return (
     <form className="container createTaskContainer" style={{borderBottom: "1px solid #ced4da"}}>
+    <h4 style={{color: "#ced4da"}}>Register</h4>
       <div className="form-row">
         <div className="col-md-6 col-sm-12">
           <input

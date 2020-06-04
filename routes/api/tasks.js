@@ -39,7 +39,7 @@ router.delete('/:id', auth, (req, res) => {
 // @route   POST api/tasks
 // @desc    Update task data - Increment task Status
 // @access  Private
-router.post('/up/:id', auth, (req, res, next) => {
+router.post('/up/:id', (req, res) => {
   Task.findById(req.params.id, function(err, task){
     if (!task) {
       res.status(404).send("Not found");
@@ -49,16 +49,14 @@ router.post('/up/:id', auth, (req, res, next) => {
     task.save()
       .then(task => {
         res.json(task);
-      }).catch(err => {
-        res.status(400).send("Update Failed")
-      })
+      }).catch(err => res.status(404).json({ success: false }));
   }
 )})
 
 // @route   POST api/tasks
 // @desc    Update task data - Decrement task Status
 // @access  Private
-router.post('/down/:id', auth, (req, res) => {
+router.post('/down/:id', (req, res) => {
   Task.findById(req.params.id, function(err, task){
     if (!task) {
       res.status(404).send("Not found");
@@ -68,9 +66,7 @@ router.post('/down/:id', auth, (req, res) => {
     task.save().then(task => {
       res.json(task);
     })
-    .catch(err => {
-      res.status(400).send("Update Failed")
-    })
+    .catch(err => res.status(404).json({ success: false }));
     }
 )})
 
