@@ -29,13 +29,13 @@ app.use('/api/tasks', require('./routes/api/tasks'));
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 
-//Serve Statis Assets if in production
+//Serve Static Assets if in production
 if (process.env.NODE_ENV === 'production'){
   // Set static folder
   //app.use(express.static('public'));
   app.use(express.static(path.join(__dirname, '/client/build')));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'public', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   })
 }
 

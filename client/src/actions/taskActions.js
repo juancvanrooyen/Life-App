@@ -11,7 +11,7 @@ import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
 
 // GET Task data from DB
-export const getTasks = () => dispatch => {
+export const getTasks = () => (dispatch) => {
   dispatch(setTasksLoading());
   axios.get('/api/tasks')
     .then(res => dispatch({

@@ -19,6 +19,7 @@ router.get('/', (req, res) => {
 // @access  Private
 router.post('/', auth, (req, res) => {
   const newTask = new Task({
+    owner: req.body.owner,
     title: req.body.title,
     desc: req.body.desc,
     status: req.body.status
@@ -39,7 +40,7 @@ router.delete('/:id', auth, (req, res) => {
 // @route   POST api/tasks
 // @desc    Update task data - Increment task Status
 // @access  Private
-router.post('/up/:id', (req, res) => {
+router.post('/up/:id', auth, (req, res) => {
   Task.findById(req.params.id, function(err, task){
     if (!task) {
       res.status(404).send("Not found");
@@ -56,7 +57,7 @@ router.post('/up/:id', (req, res) => {
 // @route   POST api/tasks
 // @desc    Update task data - Decrement task Status
 // @access  Private
-router.post('/down/:id', (req, res) => {
+router.post('/down/:id', auth, (req, res) => {
   Task.findById(req.params.id, function(err, task){
     if (!task) {
       res.status(404).send("Not found");

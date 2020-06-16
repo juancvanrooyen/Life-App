@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 // Create Task Schema
 const TaskSchema = new Schema({
   owner: {
-    type: String,
-    default: "juan_van_rooyen"
+    type: String
   },
   type: {
     type: String,

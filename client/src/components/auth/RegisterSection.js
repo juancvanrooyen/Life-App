@@ -57,39 +57,41 @@ class RegisterSection extends Component {
 
   render() {
     return (
-    <form className="container createTaskContainer" style={{borderBottom: "1px solid #ced4da"}}>
-    <h4 style={{color: "#ced4da"}}>Register</h4>
-      <div className="form-row">
-        <div className="col-md-6 col-sm-12">
-          <input
-            type="text"
-            name="name"
-            className="form-control userNameInput"
-            placeholder="Your Name..."
-            required={true}
-            onChange={this.onChange}
-            autoFocus
-          />
-          <input
-            type="text"
-            name="email"
-            className="form-control"
-            placeholder="Your Email..."
-            onChange={this.onChange}
-          />
-          <input
-            type="password"
-            name="password"
-            className="form-control"
-            placeholder="Password..."
-            onChange={this.onChange}
-          />
-        </div>
-        <div className="col-md-3 col-sm-12">
-          <button type="submit" className="btn btn-dark btn-block" onClick={this.onSubmit}>Register</button>
-        </div>
+      <div>
+        <form className="container createTaskContainer">
+          <h4 style={{color: "#ced4da"}}>You're New?</h4>
+          <p>Then Sign Up!</p>
+          <div className="form-row">
+            <div className="col-sm-12">
+              <input
+                type="text"
+                name="name"
+                className="form-control userNameInput"
+                placeholder="Your Name..."
+                required={true}
+                onChange={this.onChange}
+              />
+              <input
+                type="text"
+                name="email"
+                className="form-control"
+                placeholder="Your Email..."
+                onChange={this.onChange}
+              />
+              <input
+                type="password"
+                name="password"
+                className="form-control"
+                placeholder="Password..."
+                onChange={this.onChange}
+              />
+            </div>
+            <div className="col-sm-12">
+              <button type="submit" className="btn btn-dark btn-block" onClick={this.onSubmit}>Register</button>
+            </div>
+          </div>
+        </form>
       </div>
-    </form>
   );
   }
 }

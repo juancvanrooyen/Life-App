@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { addTask } from '../actions/taskActions';
 //import PropTypes from 'prop-types'
 
-
 class CreateTask extends Component {
   state = {
+    owner: '',
     title: '',
     desc: '',
     status: 0
@@ -18,6 +18,7 @@ class CreateTask extends Component {
   onSubmit = e => {
     e.preventDefault();
     const newTask = {
+      owner: this.props.auth.user._id,
       title: this.state.title,
       desc: this.state.desc,
       status: this.state.status
@@ -25,11 +26,16 @@ class CreateTask extends Component {
     this.props.addTask(newTask);
   }
 
-  render() {
+  render(state) {
     return (
     <form className="container createTaskContainer" style={{marginTop: "1rem"}}>
       <div className="form-row">
         <div className="col-md-6 col-sm-12">
+          <input
+            type="hidden"
+            name="owner"
+            required={true}
+          />
           <input
             type="text"
             name="title"
@@ -64,7 +70,8 @@ class CreateTask extends Component {
 
 const mapStateToProps = state => ({
   task: state.task,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { addTask })(CreateTask);

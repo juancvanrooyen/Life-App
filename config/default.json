@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://admin-juan:i1zRl1hTIqvRPEai@cluster0-zlmiy.mongodb.net/lifeappDB",
+  "jwtSecret": "juansJWTSecret"
+}

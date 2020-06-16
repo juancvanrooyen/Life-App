@@ -7,11 +7,10 @@ export class Logout extends Component {
   static propTypes = {
     logout: PropTypes.func.isRequired
   }
+
   render () {
     return (
-      <li className="nav-item">
         <a className="nav-link" href="/" onClick={this.props.logout}>Logout</a>
-      </li>
     )
   }
 }

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getTasks, deleteTask, taskUp, taskDown } from '../actions/taskActions';
 import PropTypes from 'prop-types';
-
+import NavBar from './NavBar';
+import CreateTask from './CreateTask';
 
 class Tasks extends Component {
   // constructor(props) {
@@ -39,9 +40,8 @@ class Tasks extends Component {
     console.log("Functionality Coming Soon");
   }
 
-  onTaskTextEdit(title) {
-    console.log("this = " + this);
-    console.log("title = " + title);
+  onTaskTextEdit() {
+    console.log("Functionality Coming Soon");
   }
 
   // Fires When Task's Delete Button is Clicked
@@ -58,82 +58,101 @@ class Tasks extends Component {
   render() {
     const {tasks} = this.props.task;
     return (
-      <div className="container tasks-container">
-        <div className="row">
-          <div className="col-md-4 col-sm-12 task-cols tasks-pending" id="tasks-pending" style={{borderRight:'1px solid #ced4da'}}>
-            <p className="task-section">Pending</p>
-            {tasks
-              .filter((taskItem) => {
-                return taskItem.status === 0;
-              })
-              .map(({index, _id, title, desc, status}) => {
-                return (
-                  <div key={_id} className="card text-white bg-dark">
-                    <div className="card-header row">
-                      <p className="col-8 task-header-text" onBlur={this.onTaskTextEdit.bind(this, title)}>{title}</p>
-                      <div className="col-4 task-header-icons">
-                      <span className="fas fa-arrow-left task-icon" title="Move Task" onClick={this.onTaskDown.bind(this, _id, status)}></span>
-                      <span className="fas fa-arrow-right task-icon" title="Move Task" onClick={this.onTaskUp.bind(this, _id, status)}></span>
-                      <span className="fas fa-pencil-alt task-icon" onClick={this.editButtonTest} title="Edit Task"></span>
-                      <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
+      <div>
+        <NavBar />
+        <CreateTask />
+        <div className="container tasks-container">
+          <div className="row">
+            <div className="col-md-4 col-sm-12 task-cols tasks-pending" id="tasks-pending" style={{borderRight:'1px solid #ced4da'}}>
+              <p className="task-section">Pending</p>
+              {tasks
+                .filter(
+                  (taskItem) => {
+                    return taskItem.owner === this.props.auth.user._id;
+                  }
+                )
+                .filter((taskItem) => {
+                  return taskItem.status === 0;
+                })
+                .map(({index, _id, title, desc, status}) => {
+                  return (
+                    <div key={_id} className="card text-white bg-dark">
+                      <div className="card-header row">
+                        <p className="col-8 task-header-text" onBlur={this.onTaskTextEdit.bind(this, title)}>{title}</p>
+                        <div className="col-4 task-header-icons">
+                        <span className="fas fa-arrow-left task-icon" title="Move Task" onClick={this.onTaskDown.bind(this, _id, status)}></span>
+                        <span className="fas fa-arrow-right task-icon" title="Move Task" onClick={this.onTaskUp.bind(this, _id, status)}></span>
+                        <span className="fas fa-pencil-alt task-icon" onClick={this.editButtonTest} title="Edit Task"></span>
+                        <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
+                        </div>
+                      </div>
+                      <div className="card-body" style={{display: "none"}}>
+                        <small className="card-text">{desc}</small>
                       </div>
                     </div>
-                    <div className="card-body" style={{display: "none"}}>
-                      <small className="card-text">{desc}</small>
-                    </div>
-                  </div>
+                  )
+                })}
+            </div>
+            <div className="col-md-4 col-sm-12 task-cols tasks-active" id="tasks-active" style={{borderRight:'1px solid #ced4da'}}>
+              <p className="task-section">Active</p>
+              {tasks
+                .filter(
+                  (taskItem) => {
+                    return taskItem.owner === this.props.auth.user._id;
+                  }
                 )
-              })}
-          </div>
-          <div className="col-md-4 col-sm-12 task-cols tasks-active" id="tasks-active" style={{borderRight:'1px solid #ced4da'}}>
-            <p className="task-section">Active</p>
-            {tasks
-              .filter((taskItem) => {
-                return taskItem.status === 1;
-              })
-              .map(({index, _id, title, desc, status}) => {
-                return (
-                  <div key={_id} className="card text-white bg-dark">
-                    <div className="card-header row">
-                      <p className="col-8 task-header-text">{title}</p>
-                      <div className="col-4 task-header-icons">
-                      <span className="fas fa-arrow-left task-icon" title="Move Task" onClick={this.onTaskDown.bind(this, _id, status)}></span>
-                      <span className="fas fa-arrow-right task-icon" title="Move Task" onClick={this.onTaskUp.bind(this, _id, status)}></span>
-                      <span className="fas fa-pencil-alt task-icon" onClick={this.editButtonTest} title="Edit Task"></span>
-                      <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
+                .filter((taskItem) => {
+                  return taskItem.status === 1;
+                })
+                .map(({index, _id, title, desc, status}) => {
+                  return (
+                    <div key={_id} className="card text-white bg-dark">
+                      <div className="card-header row">
+                        <p className="col-8 task-header-text">{title}</p>
+                        <div className="col-4 task-header-icons">
+                        <span className="fas fa-arrow-left task-icon" title="Move Task" onClick={this.onTaskDown.bind(this, _id, status)}></span>
+                        <span className="fas fa-arrow-right task-icon" title="Move Task" onClick={this.onTaskUp.bind(this, _id, status)}></span>
+                        <span className="fas fa-pencil-alt task-icon" onClick={this.editButtonTest} title="Edit Task"></span>
+                        <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
+                        </div>
+                      </div>
+                      <div className="card-body" style={{display: "none"}}>
+                        <small className="card-text">{desc}</small>
                       </div>
                     </div>
-                    <div className="card-body" style={{display: "none"}}>
-                      <small className="card-text">{desc}</small>
-                    </div>
-                  </div>
+                  )
+                })}
+            </div>
+            <div className="col-md-4 col-sm-12 task-cols tasks-complete" id="tasks-complete" style={{borderRight:'1px solid #fff', }}>
+              <p className="task-section">Complete</p>
+              {tasks
+                .filter(
+                  (taskItem) => {
+                    return taskItem.owner === this.props.auth.user._id;
+                  }
                 )
-              })}
-          </div>
-          <div className="col-md-4 col-sm-12 task-cols tasks-complete" id="tasks-complete" style={{borderRight:'1px solid #fff', }}>
-            <p className="task-section">Complete</p>
-            {tasks
-              .filter((taskItem) => {
-                return taskItem.status === 2;
-              })
-              .map(({index, _id, title, desc, status}) => {
-                return (
-                  <div key={_id} className="card text-white bg-dark">
-                    <div className="card-header row">
-                      <p className="col-8 task-header-text">{title}</p>
-                      <div className="col-4 task-header-icons">
-                      <span className="fas fa-arrow-left task-icon" title="Move Task" onClick={this.onTaskDown.bind(this, _id, status)}></span>
-                      <span className="fas fa-arrow-right task-icon" title="Move Task" onClick={this.onTaskUp.bind(this, _id, status)}></span>
-                      <span className="fas fa-pencil-alt task-icon" onClick={this.editButtonTest} title="Edit Task"></span>
-                      <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
+                .filter((taskItem) => {
+                  return taskItem.status === 2;
+                })
+                .map(({index, _id, title, desc, status}) => {
+                  return (
+                    <div key={_id} className="card text-white bg-dark">
+                      <div className="card-header row">
+                        <p className="col-8 task-header-text">{title}</p>
+                        <div className="col-4 task-header-icons">
+                        <span className="fas fa-arrow-left task-icon" title="Move Task" onClick={this.onTaskDown.bind(this, _id, status)}></span>
+                        <span className="fas fa-arrow-right task-icon" title="Move Task" onClick={this.onTaskUp.bind(this, _id, status)}></span>
+                        <span className="fas fa-pencil-alt task-icon" onClick={this.editButtonTest} title="Edit Task"></span>
+                        <span className="fas fa-trash-alt task-icon" title="Delete Task" onClick={this.onDeleteClick.bind(this, _id)}></span>
+                        </div>
+                      </div>
+                      <div className="card-body" style={{display: "none"}}>
+                        <small className="card-text">{desc}</small>
                       </div>
                     </div>
-                    <div className="card-body" style={{display: "none"}}>
-                      <small className="card-text">{desc}</small>
-                    </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+            </div>
           </div>
         </div>
       </div>
@@ -150,7 +169,8 @@ Tasks.propTypes = {
 
 const mapStateToProps = (state) => ({
   task: state.task,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth
 })
 
 // Hide section of Task that contains the Description, only when the Desc is empty.
